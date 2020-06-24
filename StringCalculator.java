@@ -55,13 +55,12 @@ public class StringCalculator {
 	public static void main(String[] args) {
 		StringCalculator cal = new StringCalculator();
 		
-/*		System.out.println("Add With Empty String" + cal.Add(" "));
+		System.out.println("Add With Empty String" + cal.Add(" "));
 		System.out.println("Add With Only one number" + cal.Add("2"));
 		System.out.println("Add With two numbers" + cal.Add("2,7"));
-
 		System.out.println("Add With only delimiters " + cal.Add(",\n"));
 		System.out.println("Add With multiple numbers " + cal.Add("2,7\n8,9\n8"));
-		System.out.println("Add With ';' as delimiter " + cal.Add("1;2"));*/
+		System.out.println("Add With ';' as delimiter " + cal.Add("1;2"));
 		System.out.println("Add when Strings start with // :" + cal.Add("//;\n1;2"));
 		System.out.println("Add when string contains negative numbers :" + cal.Add("2,-4,6"));
 
