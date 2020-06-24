@@ -31,7 +31,7 @@ public class StringCalculatorTest {
 	
 	@Test
 	public void testCalculatorWithnewLineDelimiter() {
-		Assert.assertEquals(18, cal.Add("1\n3,6\n8"));
+		Assert.assertEquals(1+3+6+8, cal.Add("1\n3,6\n8"));
 	}
 	
 	@Test
@@ -43,4 +43,27 @@ public class StringCalculatorTest {
 	public void testCalculatorWithOneNumberAndDelimiters() {
 		Assert.assertEquals(2, cal.Add("2,\n"));
 	}
+	
+	@Test
+	public void testCalculatorWhenStringStartWithDelimiters() {
+		Assert.assertEquals(3, cal.Add("//;\n1;2"));
+	}
+	
+	@Test(expected = RuntimeException.class)
+	public final void TestCalculatorWhenNegativeNumbersUsedThrowException() {
+	    cal.Add("2,5,78,-1,9");
+	}
+	
+	@Test
+	public final void TestCalculatorWhenNegativeNumbersUsed() {
+	    RuntimeException exception = null;
+	    try {
+	    	cal.Add("2,-6,8,-3,56");
+	    } catch (RuntimeException e) {
+	        exception = e;
+	    }
+	    Assert.assertNotNull(exception);
+	    Assert.assertEquals("Negatives not allowed: [-6, -3]", exception.getMessage());
+	}
+	
 }
