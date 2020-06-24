@@ -15,9 +15,22 @@ public class StringCalculator {
 		} 
 		
 	    if (numbers.startsWith("//")) {
-	        int delimiterIndex = numbers.indexOf("//") + 2;
-	        delimiter = numbers.substring(delimiterIndex, delimiterIndex + 1);
-	        numbersNoDelimiter = numbers.substring(numbers.indexOf("\n") + 1);
+	        if(numbers.contains("[") && numbers.contains("]")) {
+	        	int startIndexofBracket = numbers.indexOf('[');
+	        	int newLineDelimiterIndex =numbers.indexOf("\n");
+		        String delimiterString = numbers.substring(startIndexofBracket, newLineDelimiterIndex);
+		        String[] splitedDelimiterString = delimiterString.split("");
+		        for (int i = 0; i < splitedDelimiterString.length; i++) {
+		        	if(splitedDelimiterString[i].equals("[")) {
+						delimiter += "|" + splitedDelimiterString[i]+ splitedDelimiterString[i+1] + "]";
+					}
+				}
+	        }
+	        else {
+	        	int delimiterIndex = numbers.indexOf("//") + 2;
+		        delimiter += "|" + numbers.substring(delimiterIndex, delimiterIndex + 1);
+	        }
+	        numbersNoDelimiter = numbers.substring(numbers.indexOf("\n") + 1);	        
 	    }
 		return addition(numbersNoDelimiter, delimiter);
 	}
@@ -30,7 +43,7 @@ public class StringCalculator {
 		if (numbersArr.length == 0) {
 			System.out.println("Input is NOT ok");
 			return result;
-		} else if (numbersArr.length == 1) {
+	} else if (numbersArr.length == 1) {
 			System.out.println("Input has only one number");
 			return Integer.parseInt(numbersArr[0]);
 		} else {
@@ -39,8 +52,9 @@ public class StringCalculator {
 					 int numberInt = Integer.parseInt(number.trim());
 		                if (numberInt < 0) {
 		                    negativeNumList.add(numberInt);
+		                } else if (numberInt <= 1000) {
+                            result += numberInt;
 		                }
-		                result += numberInt;
 				}
 			}
 		}
@@ -62,7 +76,15 @@ public class StringCalculator {
 		System.out.println("Add With multiple numbers " + cal.Add("2,7\n8,9\n8"));
 		System.out.println("Add With ';' as delimiter " + cal.Add("1;2"));
 		System.out.println("Add when Strings start with // :" + cal.Add("//;\n1;2"));
-		System.out.println("Add when string contains negative numbers :" + cal.Add("2,-4,6"));
+		try{
+			System.out.println("Add when string contains negative numbers :" + cal.Add("2,-4,6"));
+		} catch(RuntimeException e) {
+			System.out.println(e.getMessage());
+		}
+		System.out.println("Add when string contains numbers > 1000: " + cal.Add("82,1004,1000,8"));
+		System.out.println("Add when string contains [*][%] delimiter: " + cal.Add("//[***][%]\n1***2***3"));
+		System.out.println("Add when string contains multiple delimiter in [] : " + cal.Add("//[***][%%%]\n1***10***3"));
+		System.out.println("Add when string contains * delimiter: " + cal.Add("//[***]\n1***2***3"));
 
 	}
 
